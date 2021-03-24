@@ -1,0 +1,17 @@
+@import "../utils/variables";
+
+
+.wrapper {
+    @media #{$medium-up} {
+        padding-left: 150px!important;
+        padding-right: 150px!important; 
+    }
+    @media #{$large-up} {
+        padding-left: 80px!important;
+        padding-right: 80px!important;
+    }
+    @media #{$x-large-up} {
+        padding-left: 150px!important;
+        padding-right: 150px!important;
+    }
+}

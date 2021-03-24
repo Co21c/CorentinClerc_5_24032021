@@ -1,0 +1,123 @@
+// Bootstrap
+// @import "~bootstrap/scss/bootstrap";
+
+// Fonts
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+
+// Imports SASS
+// @import "./mixin";
+// @import "./variables";
+// @import ".responsive";
+
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: "roboto", "sans serif";
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.header {
+    width: 100%;
+    height: 70px;
+    background-color: brown;
+    &__nav {
+        // @include flex-center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: calc(100% - 60px);
+        height: 100%;
+        background-color: cadetblue;
+        padding: 0 30px;
+        &__ul {
+            width: 300px;
+            display: flex;
+            list-style: none;
+        }
+        &__link {
+            padding: 10px 20px;
+            background-color: chocolate;
+        }
+    }
+
+}
+
+.main {
+    flex: 1 0 auto;
+}
+
+.main__product {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 50px;
+    gap: 20px;
+    grid-auto-rows: 200px;
+}
+
+.apercu,
+.name,
+.price,
+.desc {
+    // @include flex-center;
+    font-size: 16px;
+}
+    
+
+.template {
+    &__image {
+        position: relative;
+        &__img {
+            width: 100%;
+            height: 100%;
+            position: relative;
+
+      }
+        &__add__cart {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            text-align: center;
+            background-color: rgb(221, 221, 221);
+            color: indigo;
+            text-decoration: none;
+            opacity: 1;
+          }
+    }
+    &__name {
+        text-align: center;
+        
+    }
+}
+
+.footer {
+    width: 100%;
+    flex-shrink: 0;
+    &__nav {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        background-color: darkblue;
+        &__link {
+            padding: 10px 20px;
+            background-color: coral;
+        }
+    }
+}
+
+
+
+// test
+
+.add-cart {
+    text-decoration: none;
+
+    padding: 10px 20px;
+    border: 2px solid;
+}
