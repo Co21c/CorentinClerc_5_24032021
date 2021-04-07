@@ -5,9 +5,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
 
 // Imports SASS
-// @import "./mixin";
-// @import "./variables";
-// @import ".responsive";
+@import "./utilitaires/mixin";
+@import "./utilitaires/variables";
+@import "./utilitaires/responsive";
 
 
 
@@ -120,4 +120,15 @@ html, body {
 
     padding: 10px 20px;
     border: 2px solid;
+}
+
+
+
+
+// panier
+
+.panier__product {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
 }

@@ -6,8 +6,11 @@ async function main () {
     const articles = await getArticles()
     // Ici initialiser une potentielle erreur
 
-    for (article of articles)
+    for (article of articles) {
+        console.log(article)
         displayArticle(article)
+    }
+
 }
 
 
@@ -44,4 +47,17 @@ function displayArticle () {
     document.getElementById("main__product").appendChild(articleElt)
 }
 
-
+/**
+ * fonction pour garder le nombre d'objet dans le panier
+ */
+spanInCart()
+ function spanInCart () {
+    let spanNumber = JSON.parse(localStorage.getItem("teddie"))
+    let tab = []
+    for(let span in spanNumber) {
+        tab.push(spanNumber[span].quantity)    
+    }
+    if(spanNumber) {
+        document.querySelector(".header__span").innerHTML = tab.reduce((acc, cur) => acc + cur, 0)
+    }
+}

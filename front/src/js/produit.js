@@ -25,7 +25,7 @@ async function main() {
 
 
 
-    second()
+    addToCart(articles)
 }
 
 // Fetch du produit avec la variable ID récupéré plus haut dans l'url
@@ -65,25 +65,69 @@ function chooseYourColor(color) {
 // Recupération des données pour le panier
 
 
-async function second() {
+async function addToCart() {
     const idForm = document.querySelector("#option__produit")
     const sendBtn = document.querySelector("#btn_send")
     const articles = await getArticles()
 
     sendBtn.addEventListener('click', (event) => {
         event.preventDefault()
-        const userChoice = idForm.value
-      
-        //Création d'un objet pour l'ajouter au clickevent listener
-        let optionSelected = {
+        const optionSelected = idForm.value
+        let qt = 1
+        // Création d'un objet pour l'ajouter au clickevent listener
+        let teddie = {
             nom: articles.name,
             price: articles.price,
-            option: userChoice,
-            quantity: 1,
+            option: optionSelected,
+            quantity: qt,
             id: articles._id
         }
 
-        console.log(optionSelected)
-    })
+        let teddiesExist = true
 
+        let teddieStorage = JSON.parse(localStorage.getItem("teddie"))
+
+
+        // On compare la couleur et l'id pour obtenir une cobinaison unique, si ca match, on augmente la quantité++, sinon on push le produit
+        if(teddieStorage) {
+            for(i = 0; i < teddieStorage.length; i++) {
+                if(teddieStorage[i].id === teddie.id && teddieStorage[i].option === teddie.option) {
+                    teddieStorage[i].quantity++
+                    localStorage.setItem("teddie", JSON.stringify(teddieStorage))
+                    console.log("c'est le même")
+                    teddiesExist = false
+                    break
+                } 
+            }
+            if(teddiesExist) {
+                teddieStorage.push(teddie)
+                localStorage.setItem("teddie", JSON.stringify(teddieStorage))
+                console.log("c'est pas le même")
+
+            }
+        }
+
+        // Si rien est dans le local storage, on l'init en tableau et push le premier article
+        if (teddieStorage == null) {
+            teddieStorage = []
+            teddieStorage.push(teddie)
+            localStorage.setItem("teddie", JSON.stringify(teddieStorage))
+        }
+
+    })
+}
+
+/**
+ * fonction pour garder le nombre d'objet dans le panier
+ */
+spanInCart()
+ function spanInCart () {
+    let spanNumber = JSON.parse(localStorage.getItem("teddie"))
+    let tab = []
+    for(let span in spanNumber) {
+        tab.push(spanNumber[span].quantity)    
+    }
+    if(spanNumber) {
+        document.querySelector(".header__span").innerHTML = tab.reduce((acc, cur) => acc + cur, 0)
+    }
 }

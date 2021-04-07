@@ -15,15 +15,59 @@
             <h2 class="header__title">Orinoco shop</h2>
             <ul class="header__nav__ul">
                 <li class="header__nav__link"><a href="index.html">Accueil</a></li>
-                <li class="header__nav__link"><a href="produit.html">Produits</a></li>
                 <li class="header__nav__link"><a href="panier.html">Panier</a><span class="header__span">0</span></li>
             </ul>    
         </nav>
     </header>
     <main class="main">
+        <div class="panier__container" id="panier__container">
+            <div>Nom du produit</div>
+            <div>prix du produit</div>
+            <div>couleur du produit</div>
+        </div>
+        <div class="panier__product" id="panier__product"></div>
+        <template id="template">
+            <div class="panier__product" id="panier__product">
+                <div class="panier__product__name"></div>
+                <div class="panier__product__option"></div>
+                <div class="panier__product__price"></div>
+                <div class="panier__product__quantity"></div>
+                <button class="panier__product__clear">Supprimer l'article</button>
+            </div>
+        </template>
+    <div>
+        <button id="clearCart">Vider le panier</button>
+        <p id="amountCart"></p>
+    </div>
 
-        <p><a href="#" class="add-cart">test</a></p>
+    <div class="panier__form" id="formCart">
+        <h2 class="pannier__form__title">Remplissez le formulaire pour finaliser votre commande</h2>
 
+        <form id="form">
+            <label for="prenom">Prénom</label>
+            <input type="text" name="prenom" id="formPrenom" required>
+
+            <label for="nom">Nom</label>
+            <input type="text" name="nom" id="formNom" required>
+
+            <label for="adresse">Votre adresse</label>
+            <textarea name="adresse" id="formAdresse" cols="30" rows="10" required></textarea>
+
+            <label for="ville">Votre ville</label>
+            <input type="text" name="ville" id="formVille">
+
+            <label for="codePostal">Code Postal</label>
+            <input type="number" name="codePostal" id="formCP">
+
+            <label for="email">Votre email</label>
+            <input type="mail" name="email" id="formEmail">
+
+            <button type="submit" id="formButton" >Confirmation de la commande</button>
+
+        </form>
+        <p id="formAlert">Je suis la</p>
+
+    </div>
     </main>
     <footer class="footer">
         <nav class="footer__nav">
