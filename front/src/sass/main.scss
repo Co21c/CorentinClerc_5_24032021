@@ -24,89 +24,414 @@ html, body {
 
 .header {
     width: 100%;
-    height: 70px;
-    background-color: brown;
+
+    &__title {
+        @include flex-center;
+        font-size: 2.5rem;
+        color: white;
+    }
     &__nav {
+        width: 100%;
         // @include flex-center;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: center;
-        width: calc(100% - 60px);
+        flex-wrap: wrap;
         height: 100%;
-        background-color: cadetblue;
-        padding: 0 30px;
+        background-color: $primaire;
+        padding: 15px;
         &__ul {
-            width: 300px;
-            display: flex;
-            list-style: none;
+            @include flex-center;
+            list-style: none;            
+            border-radius: 25px;
+            background-color: $secondaire;
+            padding: 0;
+            margin: 0;
+
+
         }
         &__link {
-            padding: 10px 20px;
-            background-color: chocolate;
+            padding: 20px 40px;
+            text-decoration: none;
+            color: white;
+            & a {
+                font-size: 1.2rem;
+                text-decoration: none;
+                color: white;
+            }
         }
+        
+    }
+
+    &__span {
+        font-size: 1.2rem;
+
+        margin: 10px;
     }
 
 }
 
 .main {
     flex: 1 0 auto;
+
+    &__index {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    &__produit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 50px;
+        margin-top: 40px
+    }
 }
 
-.main__product {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 50px;
-    gap: 20px;
-    grid-auto-rows: 200px;
-}
 
-.apercu,
-.name,
-.price,
-.desc {
-    // @include flex-center;
-    font-size: 16px;
-}
     
 
 .template {
-    &__image {
-        position: relative;
-        &__img {
-            width: 100%;
-            height: 100%;
-            position: relative;
+    &__article {
+        @include box-shadow;
+        display: flex;
+        min-width: 560px;
+        width: calc( 50% - 60px );
+        margin: 15px;
+        height: 200px;
+        background-color: $background;
+        border-radius: 25px;
+        padding: 5px;
+        overflow: hidden;
 
-      }
-        &__add__cart {
-            position: absolute;
-            width: 100%;
-            bottom: 0;
-            left: 0;
-            text-align: center;
-            background-color: rgb(221, 221, 221);
-            color: indigo;
-            text-decoration: none;
-            opacity: 1;
-          }
+    }
+    &__image {
+        height: 200px;
+        width: 40%;
+        border-radius: 25px;
+    }
+    &__link {
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    &__name {
+        @include flex-center;
+        width: 15%;
+        height: 50%;
+        text-align: center;
+        color: $primaire;
+    }
+    &__price {
+        @include flex-center;
+        width: 15%;
+        height: 50%;
+        color: $primaire;
+
+    }
+    &__desc {
+        @include flex-center;
+        padding: 0 10px;
+        width: calc(45% - 20px);
+        height: 100%;
+        text-align: center;
+        color: $primaire;
+    }
+}
+
+
+
+// Page produit
+.produit {
+    &__image {
+        @include box-shadow;
+        margin-top: 10px;
+        width: 800px;
+        height: auto;
+        border-radius: 30px;
     }
     &__name {
+        color: $primaire;
+        font-size: 1.6rem;
+        margin: 10px 0;
+    }
+    &__price {
+        color: $primaire;
+        font-size: 1.6rem;
+        margin: 10px 0;
+
+    }
+    &__desc {
+        color: $primaire;
+        font-size: 1.6rem;
         text-align: center;
-        
+        margin: 10px 0;
+
+    }
+    &__form {
+        font-size: 1.6rem;
+        color: $primaire;
+        text-align: center;
+        margin: 10px 0;
+
+
+    }
+    &__select {
+        text-align: center;
+        font-size: 1.6rem;
+        color: $tertiaire;
+        margin: 10px 0;
+    }
+    &__btn {
+        border: none;
+        background: linear-gradient(360deg, $primaire 0%, $secondaire 100%);
+        height: 50px;
+        width: 200px;
+        border-radius: 30px;
+        margin: 20px 0;
+        color: $background;
+        font-size: 0.85rem;
+        font-weight: 700;
+        @include box-shadow;
+        transition: transform 300ms ease-in-out;
+        &:hover {
+            opacity: 0.8;
+            cursor: pointer;
+            box-shadow: 2px 2px 25px 0px black;
+        }
+        &:focus {
+            outline: none;
+        }            
+    }
+    &__added {
+        opacity: 1!important;
+    }
+    &__adding {
+        opacity: 0;
+        color: $primaire;
+        height: 1rem;
+    }
+}
+
+// Panier
+
+.panier__container {
+    min-height: 200px;
+    @include flex-center;
+    flex-wrap: wrap;
+    color: $primaire;
+    font-size: 3rem;
+}
+.panier__base {
+    margin-top: 40px;
+    display: flex;
+    width: calc(100% - 60px);
+    padding: 20px 30px;
+
+    &__name {
+        @include flex-center;
+        width: 20%;
+        font-size: 1.6rem;
+    }
+    &__color {
+        @include flex-center;
+        width: 20%;
+        font-size: 1.6rem;
+
+    }
+    &__price {
+        @include flex-center;
+        width: 20%;
+        font-size: 1.6rem;
+
+    }
+    &__quantity {
+        @include flex-center;
+        width: 20%;
+        font-size: 1.6rem;
+
+    }
+}
+.panier__product {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 30px;
+    width: calc(100% - 60px);
+    font-size: 1.4rem;
+    &__name {
+        @include flex-center;
+        width: 20%;
+
+    }
+    &__option {
+        @include flex-center;
+        width: 20%;
+    }
+    &__price {
+        @include flex-center;
+        width: 20%;
+    }
+    &__quantity {
+        @include flex-center;
+        width: 20%;
+    }
+    &__clear {
+        @include flex-center;
+        width: 20%;
+        border: none;
+        background: linear-gradient(360deg, $primaire 0%, $secondaire 100%);
+        border-radius: 30px;
+        color: $background;
+        padding: 5px;
+        @include box-shadow;
+        transition: transform 300ms ease-in-out;
+        &:hover {
+            opacity: 0.8;
+            cursor: pointer;
+            box-shadow: 2px 2px 25px 0px black;
+        }
+        &:focus {
+            outline: none;
+        }     
+    }
+}
+.panier__util {
+    height: 40px;
+    width: calc(100% - 60px);
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: row-reverse;
+    &__clear {
+        border: none;
+        background: linear-gradient(360deg, $primaire 0%, $secondaire 100%);
+        border-radius: 30px;
+        color: $background;
+        font-size: 1.2rem;
+        font-weight: 700;
+        @include box-shadow;
+        transition: transform 300ms ease-in-out;
+        &:hover {
+            opacity: 0.8;
+            cursor: pointer;
+            box-shadow: 2px 2px 25px 0px black;
+        }
+        &:focus {
+            outline: none;
+        }     
+    }
+    &__amount {
+        font-size: 1.2rem;
+        margin-right: 50px;
+    }
+}
+
+
+
+
+// Formulaire du panier
+
+.form {
+    margin: 0 50px;
+    &__field {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 40px;
+        border: solid $primaire 1px;
+        border-radius: 10px;
+
+    }
+    &__legend {
+        padding: 0 5px;
+        font-size: 1.2rem;
+        color: $primaire;
+    }
+    &__title {
+        text-align: center;
+        font-size: 1.8rem;
+    }
+    label {
+        color: $primaire;
+        margin: 0 0 0 10px;
+    }
+    input {
+        margin: 5px 0;
+        padding: 5px;
+        width: 100%;
+        border: solid $secondaire 1px;
+        border-radius: 10px;
+
+    }
+    textarea {
+        margin: 5px 0;
+        padding: 5px;
+        width: 100%;
+        border: solid $secondaire 1px;
+        border-radius: 10px;
+    }
+    &__btn {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+        border: none;
+        padding: 5px;
+        background: linear-gradient(360deg, $primaire 0%, $secondaire 100%);
+        border-radius: 30px;
+        color: $background;
+        font-size: 1rem;
+        height: 50px;
+        font-weight: 700;
+        @include box-shadow;
+        transition: transform 300ms ease-in-out;
+        &:hover {
+            opacity: 0.8;
+            cursor: pointer;
+            box-shadow: 2px 2px 25px 0px black;
+        }
+        &:focus {
+            outline: none;
+        }  
+    }
+    &__alert {
+        width: 100%;
+        @include flex-center;
+        color: red;
+    }
+}
+
+// Confirmation
+
+.confirm {
+    @include flex-center;
+    flex-wrap: wrap;
+    font-size: 1.4rem;
+    color: $primaire;
+    &__p {
+        @include flex-center;
+        width: 100%;
     }
 }
 
 .footer {
+    margin-top: 20px;
     width: 100%;
     flex-shrink: 0;
     &__nav {
         width: 100%;
+        height: 80px;
         display: flex;
         justify-content: center;
-        background-color: darkblue;
+        background-color: $primaire;
         &__link {
+            @include flex-center;
+            font-size: 2rem;
+            width: 50px;
             padding: 10px 20px;
-            background-color: coral;
+            color: $tertiaire;
+            background-color: $secondaire;
         }
     }
 }
@@ -126,9 +451,3 @@ html, body {
 
 
 // panier
-
-.panier__product {
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-}

@@ -1,8 +1,5 @@
 
 
-
-
-
 main()
 
 async function main() {
@@ -18,7 +15,7 @@ async function main() {
         }
     }
     clearTeddie(teddieStorage)
-    clearCart()
+    spanInCart("teddie")
 }
 
 /**
@@ -29,7 +26,7 @@ function displayArticle() {
     let articleElt = document.importNode(templateElt.content, true)
 
     articleElt.querySelector(".panier__product__name").textContent = ted.nom
-    articleElt.querySelector(".panier__product__price").textContent = ted.price
+    articleElt.querySelector(".panier__product__price").textContent = ted.price / 100 + " €"
     articleElt.querySelector(".panier__product__option").textContent = ted.option
     articleElt.querySelector(".panier__product__quantity").textContent = ted.quantity
 
@@ -41,6 +38,7 @@ function displayArticle() {
 /**
  * function pour nettoyer le panier (local storage pour actualisaiton de la page)
  */
+clearCart()
 function clearCart() {
     const btnClearCart = document.getElementById("clearCart")
     btnClearCart.addEventListener("click", function(event){
@@ -59,11 +57,11 @@ function clearTeddie (teddieStorage) {
     let btnClearTed = document.querySelectorAll(".panier__product__clear")
 
 
-    for(let btn in btnClearTed) {
-        btnClearTed[btn].addEventListener("click", function(event) {
+        for(let i = 0; i < btnClearTed.length; i++) {
+        btnClearTed[i].addEventListener("click", function(event) {
             event.preventDefault()
 
-            teddieStorage.splice(btn, 1)
+            teddieStorage.splice(i, 1)
             localStorage.setItem("teddie", JSON.stringify(teddieStorage))
 
             // let idTeddieClear = teddieStorage[btn].id
@@ -90,10 +88,9 @@ function totalAmountCart () {
         let singleAmount = teddieStorage[ted].price * teddieStorage[ted].quantity
         totalAmount.push(singleAmount)
     }
-    console
     totalAmount = totalAmount.reduce((acc, cur) => acc + cur, 0)
     let amountCart = document.getElementById("amountCart")
-    amountCart.textContent = "Le prix total : " + totalAmount + " $"
+    amountCart.textContent = "Le prix total : " + totalAmount / 100 + " €"
 }
 
 
@@ -109,62 +106,79 @@ function form () {
         const formNom = document.getElementById("formNom").value
         const formAdresse = document.getElementById("formAdresse").value
         const formVille = document.getElementById("formVille").value
-        const formCP = document.getElementById("formCP").value
         const formEmail = document.getElementById("formEmail").value
         
 
-        let FormComplete = {
-            firstname: formPrenom,
-            lastname: formNom,
-            adress: formAdresse,
+        const FormComplete = {
+            firstName: formPrenom,
+            lastName: formNom,
+            address: formAdresse,
             city: formVille,
-            cp: formCP,
-            mail: formEmail
+            email: formEmail
         }
 
         // tester le formulaire
-        //Verifier les inputs avec des fonctions ou autre
-
-        localStorage.setItem("form", JSON.stringify(FormComplete))
-
-
-        const formAlert = document.getElementById("formAlert")
-        formAlert.textContent = "Merci de verifier vos informations"
-        //
-
-        
-        const teddie = JSON.parse(localStorage.getItem("teddie"))
-        // Création de l'objet à envoyer
-        const toSend = {
-            teddie,
-            FormComplete
+        let formIstrue = false
+        if(validFormAddress(formAdresse) && validFormEmail(formEmail) && validFormNames(formPrenom) && validFormNames(formNom) && validFormNames(formVille)) {
+            formIstrue = true
         }
 
-        fetch("http://localhost:3000/api/teddies/order", {
-        method: "POST",
-        headers: {
-            "Content-Type" : "application/json"
-        },
-        body: JSON.stringify(toSend)
-        })
-        .then(function(response) {
-            if(response.status === 201) {
-                window.location.assign("confirmation.html")
 
+        //Creation de l'objet à envoyer
+        let teddie = JSON.parse(localStorage.getItem("teddie"))
+        let tedId = []
+        if(teddie) {
+            for(i = 0; i < teddie.length; i++) {
+            tedId.push(teddie[i].id)
             }
-        })
+        } else {
+            alert("le panier est vide")
+        }
+
+        const toSend = {
+            products: tedId,
+            contact: FormComplete
+        }
+
+        // Fetch de l'objet si le formulaire est true
+        if(formIstrue === true && teddie) {
+            fetch("http://localhost:3000/api/teddies/order", {
+                method: "POST",
+                headers: {
+                    "Accept" : "application/json",
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(toSend)
+                })
+                .then(function(response) {
+                    if(response.status === 201) {
+                        return response.json()
+                    }
+                })
+                .then(function(data) {
+                    window.location.assign("confirmation.html?id=" + data.orderId + "&prenom=" + data.contact.firstName + "&nom=" + data.contact.lastName)
+                })
+                .catch(function(e) {
+                    console.log(e)
+                })
+            
+                
+        }
+
+        // Catcher une erreur
 
 
 
 
     })
 }
+
 /**
- * fonction pour garder le nombre d'objet dans le panier
+ * 
+ * @param {string} nom 
  */
-spanInCart ()
-function spanInCart () {
-    let spanNumber = JSON.parse(localStorage.getItem("teddie"))
+function spanInCart (nom) {
+    let spanNumber = JSON.parse(localStorage.getItem(nom))
     let tab = []
     for(let span in spanNumber) {
         tab.push(spanNumber[span].quantity)    
@@ -188,6 +202,59 @@ function formStayIn () {
         document.getElementById("formEmail").value = formStorage.mail
     }
 }
+
+
+
+/**
+ * 
+ * @param {string} data 
+ * @returns 
+ */
+function validFormNames(data) {
+    if(/^[A-Za-zéèàê]{3,20}-?([A-Za-zéèàê]{3,20})?$/.test(data)) {
+        return true
+    } else {
+        alert(alertForm(data))
+        return false
+    }
+}
+/**
+ * 
+ * @param {string} data 
+ * @returns 
+ */
+function validFormEmail(data) {
+    if(/^[\w\-]+(\.[\w\-]+)*@[\w\-]+(\.[\w\-]+)*\.[\w\-]{2,}$/.test(data)) {
+        return true
+    } else {
+        alert("Merci de saisir une adresse mail valide")
+        return false
+    }
+}
+
+/**
+ * 
+ * @param {string} data 
+ * @returns 
+ */
+function validFormAddress(data) {
+    if(/^([0-9]*) ?([a-zA-Z,\. ]*)$/.test(data)) {
+        return true
+    } else {
+        alert("Merci de vérifier votre adresse postale")
+        return false
+    }
+}
+
+
+/**
+ * 
+ * @param {string} value 
+ * @returns 
+ */
+function alertForm(value) {
+    return value + ": Chiffre et caratéres spéciaux non autorisé. \n Saisir entre 3 et 20 caratéres"
+}
 /**
  * QUESTION POUR LA SESSION MENDOTORAT
  * 
@@ -195,6 +262,7 @@ function formStayIn () {
  * 
  * J'ai bad request sur ma méthod post
  * Page confirmation, quel est son contenu
+ * J'arrive tjrs pas a commit le back
  * 
  * Je me souviens plus comment commenter mes fonctions
  * J'utilise une même fonction sur mes 3 pages, je peux reduire ?

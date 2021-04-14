@@ -13,25 +13,21 @@
                 <h2 class="header__title">Orinoco shop</h2>
                 <ul class="header__nav__ul">
                     <li class="header__nav__link"><a href="index.html">Accueil</a></li>
-                    <li class="header__nav__link"><a href="panier.html">Panier</a><span class="header__span">0</span></li>
+                    <li class="header__nav__link"><a href="panier.html">Panier :</a><span class="header__span">0</span></li>
                 </ul>    
             </nav>
         </header>   
         <main class="main">
-            <div id="main__product" class="main__product">
-                <div class="apercu">Apercu</div>
-                <div class="name">Nom</div>
-                <div class="price">Prix</div>
-                <div class="desc">Description</div>
-            </div>
+            <div id="main__product" class="main__index"></div>
             <template id="template" class="template">
-                <div class="template__image">
-                    <img src="" alt="" class="template__image__img" width="100px" height="100px">
-                    <a href="#" class="template__image__add__cart">Voir le produit</a>
-                </div>
-                <div class="template__name"></div>
-                <div class="template__price"></div>
-                <div class="template__desc"></div>
+                <article class="template__article">
+                    <a href="#" class="template__link">
+                        <img src="" alt="" class="template__image" width="100px" height="100px">
+                        <div class="template__name"></div>
+                        <div class="template__price"></div>
+                        <div class="template__desc"></div>
+                    </a>
+                </article>
             </template>
         </main>
 

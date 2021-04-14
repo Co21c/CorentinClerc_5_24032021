@@ -3,7 +3,6 @@
 const getUrlId = window.location.search
 const urlSearchParams = new URLSearchParams(getUrlId)
 const getId = urlSearchParams.get('id')
-// Ici initialiser une potentielle erreur
 
 
 
@@ -11,7 +10,6 @@ main()
 
 async function main() {
     const articles = await getArticles()
-    // Ici initialiser une potentielle erreur
     .catch(error => {
         console.log(error)
     })
@@ -22,8 +20,7 @@ async function main() {
     let colors = articles.colors
     for(color of colors)
     chooseYourColor(color)
-
-
+    spanInCart()
 
     addToCart(articles)
 }
@@ -32,9 +29,15 @@ async function main() {
 
 async function getArticles() {
     const response = await fetch(`http://localhost:3000/api/teddies/${getId}`)
-    // Ici initialiser une potentielle erreur
-    const article = await response.json()
-    return article
+    if(response.status == 200 ) {
+        console.log(response)
+        const article = await response.json()
+        return article
+    } else {
+        console.log("erreur")
+        throw new Error ("Erreur sur la réponse du serveur")
+    }
+
 }
 
 
@@ -44,10 +47,10 @@ function displayArticles(article) {
     let templateElt = document.getElementById("template")
     let articleElt = document.importNode(templateElt.content, true)
 
-    articleElt.querySelector(".template__name").textContent = article.name
-    articleElt.querySelector(".template__price").textContent = article.price
-    articleElt.querySelector(".template__desc").textContent = article.description
-    articleElt.querySelector(".template__image__img").src = article.imageUrl
+    articleElt.querySelector(".produit__name").textContent = article.name
+    articleElt.querySelector(".produit__price").textContent = article.price / 100 + " €"
+    articleElt.querySelector(".produit__desc").textContent = article.description
+    articleElt.querySelector(".produit__image").src = article.imageUrl
 
     document.getElementById("main__product").appendChild(articleElt)
 
@@ -94,7 +97,6 @@ async function addToCart() {
                 if(teddieStorage[i].id === teddie.id && teddieStorage[i].option === teddie.option) {
                     teddieStorage[i].quantity++
                     localStorage.setItem("teddie", JSON.stringify(teddieStorage))
-                    console.log("c'est le même")
                     teddiesExist = false
                     break
                 } 
@@ -102,8 +104,6 @@ async function addToCart() {
             if(teddiesExist) {
                 teddieStorage.push(teddie)
                 localStorage.setItem("teddie", JSON.stringify(teddieStorage))
-                console.log("c'est pas le même")
-
             }
         }
 
@@ -114,14 +114,26 @@ async function addToCart() {
             localStorage.setItem("teddie", JSON.stringify(teddieStorage))
         }
 
+
+        const productAdded = document.getElementById("product__added")
+        productAdded.classList.remove("produit__added")
+
+        function displayNone () {
+            const productAdded = document.getElementById("product__added")
+            productAdded.classList.add("produit__added")
+
+        }
+        setTimeout(displayNone, 200)
+        
+        spanInCart()
+
     })
 }
 
 /**
  * fonction pour garder le nombre d'objet dans le panier
  */
-spanInCart()
- function spanInCart () {
+function spanInCart () {
     let spanNumber = JSON.parse(localStorage.getItem("teddie"))
     let tab = []
     for(let span in spanNumber) {
@@ -131,3 +143,4 @@ spanInCart()
         document.querySelector(".header__span").innerHTML = tab.reduce((acc, cur) => acc + cur, 0)
     }
 }
+

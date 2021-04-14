@@ -7,7 +7,6 @@ async function main () {
     // Ici initialiser une potentielle erreur
 
     for (article of articles) {
-        console.log(article)
         displayArticle(article)
     }
 
@@ -20,7 +19,11 @@ function getArticles () {
     return fetch("http://localhost:3000/api/teddies")
     // Ici initialiser une potentielle erreur
     .then(function (response) {
-        return response.json()
+        if(response.status == 200) {
+            return response.json()
+        } else {
+            throw new Error("Erreur sur la réponse du serveur")
+        }
     })
     .then(function(articles) {
         return articles
@@ -37,11 +40,11 @@ function displayArticle () {
     let articleElt = document.importNode(templateElt.content, true)
 
     articleElt.querySelector(".template__name").textContent = article.name
-    articleElt.querySelector(".template__price").textContent = article.price
-    articleElt.querySelector(".template__image__img").src = article.imageUrl
-    articleElt.querySelector(".template__desc").textContent = article.description
+    articleElt.querySelector(".template__price").textContent = "Prix : " + article.price / 100 + " €"
+    articleElt.querySelector(".template__image").src = article.imageUrl
+    articleElt.querySelector(".template__desc").textContent = "Description : " + article.description
 
-    articleElt.querySelector(".template__image__add__cart").href = "produit.html?id=" + article._id
+    articleElt.querySelector(".template__link").href = "produit.html?id=" + article._id
 
 
     document.getElementById("main__product").appendChild(articleElt)

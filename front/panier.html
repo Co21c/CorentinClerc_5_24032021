@@ -21,11 +21,13 @@
     </header>
     <main class="main">
         <div class="panier__container" id="panier__container">
-            <div>Nom du produit</div>
-            <div>prix du produit</div>
-            <div>couleur du produit</div>
+            <div class="panier__base">
+                <div class="panier__base__name">Article</div>
+                <div class="panier__base__color">Couleur</div>
+                <div class="panier__base__price">Prix</div>
+                <div class="panier__base__quantity">Quantité</div>
+            </div>
         </div>
-        <div class="panier__product" id="panier__product"></div>
         <template id="template">
             <div class="panier__product" id="panier__product">
                 <div class="panier__product__name"></div>
@@ -35,37 +37,37 @@
                 <button class="panier__product__clear">Supprimer l'article</button>
             </div>
         </template>
-    <div>
-        <button id="clearCart">Vider le panier</button>
-        <p id="amountCart"></p>
+    <div class="panier__util">
+        <button class="panier__util__clear" id="clearCart">Vider le panier</button>
+        <p class="panier__util__amount" id="amountCart"></p>
     </div>
 
-    <div class="panier__form" id="formCart">
-        <h2 class="pannier__form__title">Remplissez le formulaire pour finaliser votre commande</h2>
+    <div class="form__div" id="formCart">
+        <h2 class="form__title">Remplissez le formulaire pour finaliser votre commande</h2>
 
-        <form id="form">
-            <label for="prenom">Prénom</label>
-            <input type="text" name="prenom" id="formPrenom" required>
+        <form id="form" class="form">
+            <fieldset class="form__field">
+                <legend class="form__legend">Contact</legend>
+                <label for="prenom">Prénom</label>
+                <input type="text" name="prenom" id="formPrenom" required>
 
-            <label for="nom">Nom</label>
-            <input type="text" name="nom" id="formNom" required>
+                <label for="nom">Nom</label>
+                <input type="text" name="nom" id="formNom" required>
 
-            <label for="adresse">Votre adresse</label>
-            <textarea name="adresse" id="formAdresse" cols="30" rows="10" required></textarea>
+                <label for="adresse">Votre adresse</label>
+                <textarea name="adresse" id="formAdresse" cols="30" rows="10" required placeholder="987 Avenue Carnot"></textarea>
 
-            <label for="ville">Votre ville</label>
-            <input type="text" name="ville" id="formVille">
+                <label for="ville">Votre ville</label>
+                <input type="text" name="ville" id="formVille">
 
-            <label for="codePostal">Code Postal</label>
-            <input type="number" name="codePostal" id="formCP">
+                <label for="email">Votre email</label>
+                <input type="mail" name="email" id="formEmail">
 
-            <label for="email">Votre email</label>
-            <input type="mail" name="email" id="formEmail">
+                <button type="submit" id="formButton" class="form__btn">Confirmation de la commande</button>
+                <p id="formAlert" class="form__alert"></p>
 
-            <button type="submit" id="formButton" >Confirmation de la commande</button>
-
+            </fieldset>
         </form>
-        <p id="formAlert">Je suis la</p>
 
     </div>
     </main>
