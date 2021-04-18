@@ -26,16 +26,14 @@ async function main() {
 }
 
 // Fetch du produit avec la variable ID récupéré plus haut dans l'url
-
 async function getArticles() {
     const response = await fetch(`http://localhost:3000/api/teddies/${getId}`)
     if(response.status == 200 ) {
-        console.log(response)
         const article = await response.json()
         return article
     } else {
         console.log("erreur")
-        throw new Error ("Erreur sur la réponse du serveur")
+        throw new Error("Erreur sur la réponse du serveur")
     }
 
 }
@@ -56,7 +54,10 @@ function displayArticles(article) {
 
 }
 
-// Fonction pour ajouter des "options" avec les couleurs du produits
+/**
+ * 
+ * @param {string} color 
+ */
 function chooseYourColor(color) {
     let select = document.getElementById("option__produit")
     let addOption = new Option(color, color)
@@ -68,10 +69,10 @@ function chooseYourColor(color) {
 // Recupération des données pour le panier
 
 
-async function addToCart() {
+async function addToCart(articles) {
     const idForm = document.querySelector("#option__produit")
     const sendBtn = document.querySelector("#btn_send")
-    const articles = await getArticles()
+    // const articles = await getArticles()
 
     sendBtn.addEventListener('click', (event) => {
         event.preventDefault()
@@ -87,9 +88,7 @@ async function addToCart() {
         }
 
         let teddiesExist = true
-
         let teddieStorage = JSON.parse(localStorage.getItem("teddie"))
-
 
         // On compare la couleur et l'id pour obtenir une cobinaison unique, si ca match, on augmente la quantité++, sinon on push le produit
         if(teddieStorage) {
@@ -114,7 +113,6 @@ async function addToCart() {
             localStorage.setItem("teddie", JSON.stringify(teddieStorage))
         }
 
-
         const productAdded = document.getElementById("product__added")
         productAdded.classList.remove("produit__added")
 
@@ -123,10 +121,9 @@ async function addToCart() {
             productAdded.classList.add("produit__added")
 
         }
-        setTimeout(displayNone, 200)
-        
-        spanInCart()
 
+        setTimeout(displayNone, 200)
+        spanInCart()
     })
 }
 

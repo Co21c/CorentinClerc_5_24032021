@@ -18,3 +18,12 @@ function timer () {
     window.location.assign("index.html")
 }
 setTimeout(timer, 4000)
+
+clearLocalStorage ()
+function clearLocalStorage () {
+    let teddies = localStorage.getItem("teddie")
+    if(teddies) {
+        localStorage.removeItem("teddie")
+    }
+    return false
+}

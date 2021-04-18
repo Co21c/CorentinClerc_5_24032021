@@ -4,17 +4,14 @@ main ()
 
 async function main () {
     const articles = await getArticles()
-    // Ici initialiser une potentielle erreur
 
     for (article of articles) {
         displayArticle(article)
     }
-
 }
 
 
 // Recupération des articles avec fetch
-
 function getArticles () {
     return fetch("http://localhost:3000/api/teddies")
     // Ici initialiser une potentielle erreur
@@ -43,9 +40,7 @@ function displayArticle () {
     articleElt.querySelector(".template__price").textContent = "Prix : " + article.price / 100 + " €"
     articleElt.querySelector(".template__image").src = article.imageUrl
     articleElt.querySelector(".template__desc").textContent = "Description : " + article.description
-
     articleElt.querySelector(".template__link").href = "produit.html?id=" + article._id
-
 
     document.getElementById("main__product").appendChild(articleElt)
 }

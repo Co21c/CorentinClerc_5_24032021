@@ -56,29 +56,16 @@ function clearCart() {
 function clearTeddie (teddieStorage) {
     let btnClearTed = document.querySelectorAll(".panier__product__clear")
 
-
         for(let i = 0; i < btnClearTed.length; i++) {
         btnClearTed[i].addEventListener("click", function(event) {
             event.preventDefault()
-
             teddieStorage.splice(i, 1)
             localStorage.setItem("teddie", JSON.stringify(teddieStorage))
-
-            // let idTeddieClear = teddieStorage[btn].id
-            // let optionTeddieClear = teddieStorage[btn].option
-
-            // console.log(idTeddieClear)
-            // console.log(optionTeddieClear)
-            // teddieStorage = teddieStorage.filter((el) => 
-            // el.id !== idTeddieClear && el.option !== optionTeddieClear) 
-
-
-            alert("L'article a été vidé")
+            alert("L'article a été supprimé")
             window.location.reload()
             
         })
     }
-
 }
 totalAmountCart ()
 function totalAmountCart () {
@@ -92,7 +79,6 @@ function totalAmountCart () {
     let amountCart = document.getElementById("amountCart")
     amountCart.textContent = "Le prix total : " + totalAmount / 100 + " €"
 }
-
 
 
 form()
@@ -117,12 +103,11 @@ function form () {
             email: formEmail
         }
 
-        // tester le formulaire
+        //Tester le formulaire
         let formIstrue = false
         if(validFormAddress(formAdresse) && validFormEmail(formEmail) && validFormNames(formPrenom) && validFormNames(formNom) && validFormNames(formVille)) {
             formIstrue = true
         }
-
 
         //Creation de l'objet à envoyer
         let teddie = JSON.parse(localStorage.getItem("teddie"))
@@ -153,6 +138,8 @@ function form () {
                 .then(function(response) {
                     if(response.status === 201) {
                         return response.json()
+                    } else {
+                        throw new Error("Erreur sur la réponse du serveur")
                     }
                 })
                 .then(function(data) {
@@ -164,12 +151,6 @@ function form () {
             
                 
         }
-
-        // Catcher une erreur
-
-
-
-
     })
 }
 

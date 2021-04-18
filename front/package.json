@@ -22,7 +22,6 @@
         "webpack-dev-server": "^3.11.1"
     },
     "dependencies": {
-        "bootstrap": "^4.6.0",
         "core-js": "^3.9.1",
         "style-loader": "^2.0.0"
     }
