@@ -8,21 +8,25 @@ const getId = urlSearchParams.get('id')
 
 main()
 
-async function main() {
-    const articles = await getArticles()
+function main() {
+    getArticles()
+    .then (articles => {
+        displayArticles(articles)
+        let colors = articles.colors
+        for(color of colors) {
+            chooseYourColor(color)
+        }
+        addToCart(articles)
+
+    })
     .catch(error => {
-        console.log(error)
+        alert(error)
     })
 
-    displayArticles(articles)
 
     // Boucle le tableau des couleurs du produits pour en creer des options dans le select
-    let colors = articles.colors
-    for(color of colors)
-    chooseYourColor(color)
-    spanInCart()
 
-    addToCart(articles)
+    spanInCart()
 }
 
 // Fetch du produit avec la variable ID récupéré plus haut dans l'url
@@ -35,7 +39,6 @@ async function getArticles() {
         console.log("erreur")
         throw new Error("Erreur sur la réponse du serveur")
     }
-
 }
 
 
@@ -46,7 +49,7 @@ function displayArticles(article) {
     let articleElt = document.importNode(templateElt.content, true)
 
     articleElt.querySelector(".produit__name").textContent = article.name
-    articleElt.querySelector(".produit__price").textContent = article.price / 100 + " €"
+    articleElt.querySelector(".produit__price").textContent = (article.price / 100).toFixed(2) + " €"
     articleElt.querySelector(".produit__desc").textContent = article.description
     articleElt.querySelector(".produit__image").src = article.imageUrl
 
@@ -68,11 +71,9 @@ function chooseYourColor(color) {
 
 // Recupération des données pour le panier
 
-
-async function addToCart(articles) {
+function addToCart(articles) {
     const idForm = document.querySelector("#option__produit")
     const sendBtn = document.querySelector("#btn_send")
-    // const articles = await getArticles()
 
     sendBtn.addEventListener('click', (event) => {
         event.preventDefault()

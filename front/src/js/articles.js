@@ -1,33 +1,35 @@
+
+
+
 main ()
 
 // Fonction en dehors du main pour parcourir les articles en boucle
 
-async function main () {
-    const articles = await getArticles()
+function main () {
+    getArticles()
+    .then(articles => {
+        for (article of articles) {
+            displayArticle(article)
+        }
+    })
+    .catch(error => {
+        alert(error)
+    })
+    spanInCart()
 
-    for (article of articles) {
-        displayArticle(article)
-    }
 }
 
 
 // Recupération des articles avec fetch
-function getArticles () {
-    return fetch("http://localhost:3000/api/teddies")
-    // Ici initialiser une potentielle erreur
-    .then(function (response) {
-        if(response.status == 200) {
-            return response.json()
-        } else {
-            throw new Error("Erreur sur la réponse du serveur")
-        }
-    })
-    .then(function(articles) {
+async function getArticles() {
+    const response = await fetch("http://localhost:3000/api/teddies")
+    if(response.status == 200 ) {
+        const articles = await response.json()
         return articles
-    })
-    .catch(function(error) {
-        alert(error)
-    })
+    } else {
+        console.log("erreur")
+        throw new Error("Erreur sur la réponse du serveur")
+    }
 }
 
 // Fonction pour creer des templates avec des articles recupérés
@@ -37,7 +39,7 @@ function displayArticle () {
     let articleElt = document.importNode(templateElt.content, true)
 
     articleElt.querySelector(".template__name").textContent = article.name
-    articleElt.querySelector(".template__price").textContent = "Prix : " + article.price / 100 + " €"
+    articleElt.querySelector(".template__price").textContent = "Prix : " + (article.price / 100).toFixed(2) + "€"
     articleElt.querySelector(".template__image").src = article.imageUrl
     articleElt.querySelector(".template__desc").textContent = "Description : " + article.description
     articleElt.querySelector(".template__link").href = "produit.html?id=" + article._id
@@ -48,8 +50,7 @@ function displayArticle () {
 /**
  * fonction pour garder le nombre d'objet dans le panier
  */
-spanInCart()
- function spanInCart () {
+function spanInCart () {
     let spanNumber = JSON.parse(localStorage.getItem("teddie"))
     let tab = []
     for(let span in spanNumber) {

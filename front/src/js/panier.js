@@ -2,7 +2,7 @@
 
 main()
 
-async function main() {
+function main() {
     let teddieStorage = JSON.parse(localStorage.getItem("teddie"))
     const panierContainer = document.getElementById("panier__container")
 
@@ -26,7 +26,7 @@ function displayArticle() {
     let articleElt = document.importNode(templateElt.content, true)
 
     articleElt.querySelector(".panier__product__name").textContent = ted.nom
-    articleElt.querySelector(".panier__product__price").textContent = ted.price / 100 + " €"
+    articleElt.querySelector(".panier__product__price").textContent = (ted.price / 100).toFixed(2) + " €"
     articleElt.querySelector(".panier__product__option").textContent = ted.option
     articleElt.querySelector(".panier__product__quantity").textContent = ted.quantity
 
@@ -77,7 +77,7 @@ function totalAmountCart () {
     }
     totalAmount = totalAmount.reduce((acc, cur) => acc + cur, 0)
     let amountCart = document.getElementById("amountCart")
-    amountCart.textContent = "Le prix total : " + totalAmount / 100 + " €"
+    amountCart.textContent = "Le prix total : " + (totalAmount / 100).toFixed(2) + " €"
 }
 
 
@@ -127,27 +127,13 @@ function form () {
 
         // Fetch de l'objet si le formulaire est true
         if(formIstrue === true && teddie) {
-            fetch("http://localhost:3000/api/teddies/order", {
-                method: "POST",
-                headers: {
-                    "Accept" : "application/json",
-                    "Content-Type" : "application/json"
-                },
-                body: JSON.stringify(toSend)
-                })
-                .then(function(response) {
-                    if(response.status === 201) {
-                        return response.json()
-                    } else {
-                        throw new Error("Erreur sur la réponse du serveur")
-                    }
-                })
-                .then(function(data) {
-                    window.location.assign("confirmation.html?id=" + data.orderId + "&prenom=" + data.contact.firstName + "&nom=" + data.contact.lastName)
-                })
-                .catch(function(e) {
-                    console.log(e)
-                })
+            post(toSend)
+            .then((data) => {
+                window.location.assign("confirmation.html?id=" + data.orderId + "&prenom=" + data.contact.firstName + "&nom=" + data.contact.lastName)
+            })
+            .catch((error) => {
+                alert(error)
+            })
             
                 
         }
@@ -169,22 +155,21 @@ function spanInCart (nom) {
     }
 }
 
-
-formStayIn()
-function formStayIn () {
-    const formStorage = JSON.parse(localStorage.getItem("form"))
-
-    if(formStorage) {
-        document.getElementById("formPrenom").value = formStorage.firstname
-        document.getElementById("formNom").value = formStorage.lastname
-        document.getElementById("formAdresse").value = formStorage.adress
-        document.getElementById("formVille").value = formStorage.city
-        document.getElementById("formCP").value = formStorage.cp
-        document.getElementById("formEmail").value = formStorage.mail
-    }
+async function post(toSend) {
+    const response = await fetch("http://localhost:3000/api/teddies/order", {
+        method: "POST",
+        headers: {
+            "Accept" : "application/json",
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(toSend)
+        })
+        if(response.status === 201) {
+            return response.json()
+        } else {
+            throw new Error("Erreur sur la réponse du serveur")
+        }
 }
-
-
 
 /**
  * 
