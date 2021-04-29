@@ -40,6 +40,10 @@ html, body {
         height: 100%;
         background-color: $primaire;
         padding: 15px;
+        @media screen and (max-width: 450px) {
+            width: calc( 100% - 30px );
+            
+        }
         &__ul {
             @include flex-center;
             list-style: none;            
@@ -104,7 +108,9 @@ html, body {
         border-radius: 25px;
         padding: 5px;
         overflow: hidden;
-
+        @media screen and (max-width: 450px) {
+            min-width: calc( 100% - 60px );            
+        }
     }
     &__image {
         height: 200px;
@@ -124,6 +130,10 @@ html, body {
         height: 50%;
         text-align: center;
         color: $primaire;
+        @media screen and (max-width: 450px) {
+            width: fit-content;
+            height: fit-content;
+        }
     }
     &__price {
         @include flex-center;
@@ -131,6 +141,11 @@ html, body {
         width: 15%;
         height: 50%;
         color: $primaire;
+        @media screen and (max-width: 450px) {
+            width: fit-content;
+            height: fit-content;
+
+        }
 
     }
     &__desc {
@@ -140,6 +155,12 @@ html, body {
         height: 100%;
         text-align: center;
         color: $primaire;
+        @media screen and (max-width: 450px) {
+            width: 60%;
+            height: 150px;
+            padding: 0;
+
+        }
     }
 }
 

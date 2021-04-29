@@ -27,7 +27,6 @@ async function getArticles() {
         const articles = await response.json()
         return articles
     } else {
-        console.log("erreur")
         throw new Error("Erreur sur la réponse du serveur")
     }
 }

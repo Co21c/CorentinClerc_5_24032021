@@ -6,7 +6,6 @@ module.exports = {
     entry: {
         app: "./src/index.js",
         articles: "./src/js/articles.js",
-        test: "./src/js/test.js",
         produit: "./src/js/produit.js",
         panier: "./src/js/panier.js",
         confirmation: "./src/js/confirmation.js"

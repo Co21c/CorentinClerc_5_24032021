@@ -9,7 +9,7 @@ const getId = urlSearchParams.get('id')
 main()
 
 function main() {
-    getArticles()
+    getArticle()
     .then (articles => {
         displayArticles(articles)
         let colors = articles.colors
@@ -30,7 +30,7 @@ function main() {
 }
 
 // Fetch du produit avec la variable ID récupéré plus haut dans l'url
-async function getArticles() {
+async function getArticle() {
     const response = await fetch(`http://localhost:3000/api/teddies/${getId}`)
     if(response.status == 200 ) {
         const article = await response.json()
